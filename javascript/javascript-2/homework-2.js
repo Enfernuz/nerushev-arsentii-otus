@@ -61,7 +61,7 @@ const runWithoutAsyncAwait = () => {
       return memo * value
     },
     1)
-    .then(console.log)
+    .then(value => console.log(`result is ${value}, test ` + check(value === 6)))
 };
 
 const runWithAsyncAwait = () => {
@@ -74,7 +74,12 @@ const runWithAsyncAwait = () => {
       return memo * value
     },
     1)
-    .then(console.log);
+    .then(value => console.log(`result is ${value}, test ` + check(value === 6)))
 };
 
 runWithoutAsyncAwait().then(_ => console.log('\n\n\n')).then(runWithAsyncAwait)
+
+// Helper functions used in the verification of the results:
+function check (condition) {
+  return condition ? 'PASSED' : 'FAILED';
+};
