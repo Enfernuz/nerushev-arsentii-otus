@@ -8,32 +8,42 @@ createTester(process.argv).test({
 
 // The implementation:
 
-function sendRequest (reqId, opts) {
-
-  console.log(`Sending the request ${reqId}...`)
-
-  const request = http.request(opts)
-  request.on('error', (err) => console.error(`Failed to send the request ${reqId}. Reason: ${err.message}`))
-
-  request.end(() => console.log(`The request ${reqId} has been sent.`))
+function* asyncRequestGenerator (numberOfRequests, opts) {
+	
+   for (let i = 1; i <= numberOfRequests; i++) {
+     yield sendRequestAsync(i, opts);
+   }
 };
 
-async function sendRequestAsync (reqId, opts) {
-  await sendRequest(reqId, opts)
+function sendRequestAsync (reqId, opts) {
+	
+  return new Promise((resolve, reject) => {
+
+	  console.log(`Sending the request ${reqId}...`)
+
+	  const request = http.request(opts);
+	  request.on('error', (err) => {
+	    console.error(`Failed to send the request ${reqId}. Reason: ${err.message}`)
+        reject()
+      })
+
+	  request.end(() => {
+		  console.log(`The request ${reqId} has been sent.`)
+		  resolve()
+	  })
+  })
 };
 
-function sendRequestsSequentially (numberOfRequests, opts) {
-
-  for (let i = 1; i <= numberOfRequests; i++) {
-    sendRequest(i, opts)
+async function sendRequestsSequentially (numberOfRequests, opts) {
+  for await (const reqPromise of asyncRequestGenerator(numberOfRequests, opts)) {
   }
 };
 
 async function sendRequestsInParallel (numberOfRequests, opts) {
 
   const promises = []
-  for (let i = 1; i <= numberOfRequests; i++) {
-    promises.push(sendRequestAsync(i, opts))
+  for (const reqPromise of asyncRequestGenerator(numberOfRequests, opts)) {
+    promises.push(reqPromise);
   }
 
   Promise.all(promises)
