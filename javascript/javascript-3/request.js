@@ -19,13 +19,7 @@ function sendRequest (reqId, opts) {
 };
 
 async function sendRequestAsync (reqId, opts) {
-
-  console.log(`Sending the request ${reqId}...`)
-
-  const request = http.request(opts)
-  request.on('error', (err) => console.error(`Failed to send the request ${reqId}. Reason: ${err.message}`))
-
-  await request.end(() => console.log(`The request ${reqId} has been sent.`))
+  await sendRequest(reqId, opts)
 };
 
 function sendRequestsSequentially (numberOfRequests, opts) {
