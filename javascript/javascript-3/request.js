@@ -18,6 +18,16 @@ function sendRequest (reqId, opts) {
   request.end(() => console.log(`The request ${reqId} has been sent.`))
 };
 
+async function sendRequestAsync (reqId, opts) {
+
+  console.log(`Sending the request ${reqId}...`)
+
+  const request = http.request(opts)
+  request.on('error', (err) => console.error(`Failed to send the request ${reqId}. Reason: ${err.message}`))
+
+  await request.end(() => console.log(`The request ${reqId} has been sent.`))
+};
+
 function sendRequestsSequentially (numberOfRequests, opts) {
 
   for (let i = 1; i <= numberOfRequests; i++) {
@@ -29,10 +39,7 @@ async function sendRequestsInParallel (numberOfRequests, opts) {
 
   const promises = []
   for (let i = 1; i <= numberOfRequests; i++) {
-    promises.push(new Promise(resolve => {
-      sendRequest(i, opts)
-      resolve()
-    }))
+    promises.push(sendRequestAsync(i, opts))
   }
 
   Promise.all(promises)
