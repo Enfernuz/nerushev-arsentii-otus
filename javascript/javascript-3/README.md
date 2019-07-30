@@ -5,4 +5,16 @@
 - количество запросов `N`
 - тип запросов - параллельный или последовательный
 
-Скрипт `request` должен отправлять `N` последовательных или параллельных `HTTP` запросов к локальному серверу `server` 
+Скрипт `request` должен отправлять `N` последовательных или параллельных `HTTP` запросов к локальному серверу `server`
+
+=====
+
+How to run request.js:
+
+`node request N REQUEST_MODE`,
+where:
+
+    N -- number of requests to be sent
+    REQUEST_MODE -- sync or async
+
+Example: `node request 10 sync`
