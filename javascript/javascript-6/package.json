@@ -1,0 +1,6 @@
+{
+  "dependencies": {
+    "graphql-import": "^0.7.1",
+    "graphql-yoga": "^1.18.3"
+  }
+}
