@@ -19,8 +19,6 @@ const resolvers = {
 
     order: (parent, args) => orderService.getOrderById(args.id),
     user_orders: (parent, args) => orderService.getOrdersByUserId(args.user_id, args.status)
-
-
   },
   Mutation: {
     addUser: (parent, args) => userService.createUser(args.name),
