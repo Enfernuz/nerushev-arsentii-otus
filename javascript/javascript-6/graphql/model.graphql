@@ -1,0 +1,81 @@
+#
+# A registered shop visitor.
+#
+type User {
+    id: ID
+    name: String!
+    date_registered: String!,
+    date_updated: String
+}
+
+interface OwnedByUser {
+    user: User!
+}
+
+#
+# The category of a shop item.
+#
+enum Category {
+    CLOTHING
+    ELECTRONICS
+    HOUSEHOLD_GOODS
+}
+
+#
+# A product that is sold by the shop
+#
+type Product {
+    id: ID
+    description: String!
+    category: Category!
+    price: Int!
+}
+
+#
+# Some quantity of a product.
+#
+type Item {
+    product: Product!
+    quantity: Int!
+}
+
+#
+# A user's shopping cart with items to be purchased.
+#
+type ShoppingCart implements OwnedByUser {
+    user: User!
+    items: [Item!]!
+}
+
+#
+# The status of an order.
+#
+enum OrderStatus {
+    CREATED
+    ACCEPTED
+    FULFILLED
+    REJECTED
+    CANCELED
+}
+
+#
+# An order made by a user.
+# Contains items that the user has checked out for purchase.
+#
+type Order implements OwnedByUser {
+    id: ID!
+    user: User!
+    items: [Item!]!
+    status: OrderStatus!
+}
+
+input ProductInput {
+    description: String!
+    category: Category!
+    price: Int!
+}
+
+input ItemInput {
+    product_id: ID!
+    quantity: Int!
+}

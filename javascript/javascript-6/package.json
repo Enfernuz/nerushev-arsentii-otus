@@ -1,0 +1,14 @@
+{
+  "name": "otus-fullstack-nerushev-graphql-eshop",
+  "version": "1.0.0",
+  "description": "A GraphQL sample e-shop API for the otus.ru fullstack developer course.",
+  "author": "Arsentii Nerushev",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js"
+  },
+  "dependencies": {
+    "graphql-import": "^0.7.1",
+    "graphql-yoga": "^1.18.3"
+  }
+}
